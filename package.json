@@ -1,17 +1,18 @@
 {
-    "name": "meandao-publish",
+    "name": "mean-dao-publish",
     "version": "1.0.0",
-    "description": "GitHub Action to publish projects and packages",
+    "description": "GitHub Action to release and publish packages",
     "main": "src/index.js",
     "scripts": {
         "build": "ncc build src/index.js -o dist --source-map --license licenses.txt"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/supermean-ayaz/publish.git"
+        "url": "git+https://github.com/mean-dao/npm-publish-toolkit/.git"
     },
     "keywords": [
         "GitHub Actions",
+        "GitHub Release",
         "publish",
         "npm",
         "release"
@@ -19,9 +20,9 @@
     "author": "",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/supermean-ayaz/publish/issues"
+        "url": "https://github.com/mean-dao/npm-publish-toolkit//issues"
     },
-    "homepage": "https://github.com/supermean-ayaz/publish#readme",
+    "homepage": "https://github.com/mean-dao/npm-publish-toolkit/#readme",
     "dependencies": {
         "@actions/core": "1.2.6",
         "@actions/github": "4.0.0",
