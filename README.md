@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       # your stuff
-      - uses: supermean-ayaz/publish@v4
+      - uses: mean-dao/npm-publish-toolkit@v1
         with:
           github_token: ${{ github.token }}
           npm_token: ${{ secrets.NPM_TOKEN }}

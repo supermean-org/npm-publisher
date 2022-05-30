@@ -1,4 +1,4 @@
-name: 'MeanDao Release & Publish'
+name: 'Meandao Release & Publish Toolkit'
 description: 'GitHub Action to release projects and publish packages'
 author: '@mean-dao'
 inputs:
