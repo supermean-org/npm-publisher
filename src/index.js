@@ -95,7 +95,7 @@ async function run() {
         }
 
         const canRelease = !tagResponse.data.tag_name;
-        const isProductionVersion = version.match(/^v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$/gm);
+        const isProductionVersion = String(version).match(/^v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$/gm);
         const isPrerelease = isProductionVersion === null;
         if (isPrerelease) {
             npmPublishTag = 'alpha';
@@ -104,7 +104,7 @@ async function run() {
             }
         }
 
-        core.info(`*** isPrerelease: ${isPrerelease} ***`);
+        core.info(`*** isProductionVersion: ${isProductionVersion}, isPrerelease: ${isPrerelease} ***`);
 
         let notificationMsg = {
             packageName: name,
