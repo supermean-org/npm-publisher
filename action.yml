@@ -1,4 +1,4 @@
-name: 'Meandao Release & Publish Toolkit'
+name: 'Mean DAO Release & Publish Toolkit'
 description: 'GitHub Action to release projects and publish packages'
 author: '@mean-dao'
 inputs:
@@ -10,6 +10,9 @@ inputs:
     required: false
   access:
     description: 'Optional. Npm access flag. Default is public'
+    required: false
+  gchat_webhook:
+    description: 'Optional. Google chat notification webhook.'
     required: false
 runs:
   using: 'node16'

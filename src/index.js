@@ -19,6 +19,7 @@ const parseChangelog = util.promisify(changelogParser);
 async function run() {
     try {
         const github_token = core.getInput('github_token', { required: true });
+        const gchat_webhook = core.getInput('gchat_webhook');
         const npm_token = core.getInput('npm_token');
         const access = core.getInput('access');
         const octokit = github.getOctokit(github_token);
@@ -93,13 +94,16 @@ async function run() {
         }
 
         const canRelease = !tagResponse.data.tag_name;
-        const isPrerelease = !!version.match(/alpha|beta|rc/);
-        if (isPrerelease) {
+        const isProductVersion = version.match(/^v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$/gm);
+        const isPrerelease = !isProductVersion;
+        if (!isProductVersion) {
             npmPublishTag = 'alpha';
             if (version.match(/beta|rc/)) {
                 npmPublishTag = 'beta';
             }
         }
+
+        let notificationMsg;
 
         if (canRelease) {
             let releaseNotes = { body: `Publish version ${tag}\n` };
@@ -124,7 +128,14 @@ async function run() {
                 prerelease: isPrerelease,
             });
 
-            core.info(`Release notes created: https://github.com/${owner}/${repo}/releases/tag/${tag}`);
+            const githubReleaseUrl = `https://github.com/${owner}/${repo}/releases/tag/${tag}`;
+            if (gchat_webhook) {
+                notificationMsg = {
+                    ...notificationMsg,
+                    githubReleaseUrl
+                };
+            }
+            core.info(`Release notes created: ${githubReleaseUrl}`);
         } else {
             core.info('Release is already exist. Nothing to do here');
         }
@@ -144,9 +155,31 @@ async function run() {
                     access: access || 'public',
                     tag: npmPublishTag || 'latest'
                 });
-                core.info(`Published to npm registry: https://www.npmjs.com/package/${name}`);
+
+                const npmRegistyUrl = `https://www.npmjs.com/package/${name}`;
+                if (gchat_webhook) {
+                    notificationMsg = {
+                        ...notificationMsg,
+                        npmRegistyUrl
+                    };
+                }
+
+                core.info(`Published to npm registry: ${npmRegistyUrl}`);
             } else {
                 core.info('Package version is already exist. Nothing to do here');
+            }
+
+            if (gchat_webhook) {
+                try {
+                    core.info(`Sending notification...`);
+
+                    const axios = require("axios").default;
+                    await axios.post(gchat_webhook, notificationMsg);
+
+                    core.info(`Notification sent!`);
+                } catch (error) {
+                    core.info(`Webhook notification failed. Error: ${error}`)
+                }
             }
         }
     } catch (error) {
