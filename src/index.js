@@ -178,7 +178,7 @@ async function run() {
                     core.info(`Sending notification...`);
 
                     const jsonBody = JSON.stringify(notificationMsg, null, 4);
-                    await axios.default.post(gchat_webhook, jsonBody);
+                    await axios.default.post(gchat_webhook, { text: jsonBody });
 
                     core.info(`Notification sent!`);
                 } catch (error) {
