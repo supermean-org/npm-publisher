@@ -1,4 +1,5 @@
 const util = require('util');
+const axios = require("axios");
 const fse = require('fs-extra');
 const core = require('@actions/core');
 const github = require('@actions/github');
@@ -176,9 +177,8 @@ async function run() {
                 try {
                     core.info(`Sending notification...`);
 
-                    const axios = require("axios").default;
                     const jsonBody = JSON.stringify(notificationMsg, null, 4);
-                    await axios.post(gchat_webhook, jsonBody);
+                    await axios.default.post(gchat_webhook, jsonBody);
 
                     core.info(`Notification sent!`);
                 } catch (error) {
