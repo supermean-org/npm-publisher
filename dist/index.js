@@ -43764,7 +43764,10 @@ async function run() {
             }
         }
 
-        let notificationMsg;
+        let notificationMsg = {
+            packageName: name,
+            version
+        }
 
         if (canRelease) {
             let releaseNotes = { body: `Publish version ${tag}\n` };
@@ -43835,7 +43838,8 @@ async function run() {
                     core.info(`Sending notification...`);
 
                     const axios = __webpack_require__(3778).default;
-                    await axios.post(gchat_webhook, notificationMsg);
+                    const jsonBody = JSON.stringify(notificationMsg, null, 4);
+                    await axios.post(gchat_webhook, jsonBody);
 
                     core.info(`Notification sent!`);
                 } catch (error) {
