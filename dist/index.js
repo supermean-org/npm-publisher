@@ -48684,23 +48684,26 @@ async function run() {
 
             commits = commitList.data.commits.map(x => `[${x.commit.author.name}] ${x.commit.message}`);
 
-            core.info(`commits:`, commits);
+            core.info(`commits: ${commits}`);
         } catch (err) {
             core.info(`commits:error:`, err);
         }
 
         const canRelease = !tagResponse.data.tag_name;
-        const isProductVersion = version.match(/^v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$/gm);
-        const isPrerelease = !isProductVersion;
-        if (!isProductVersion) {
+        const isProductionVersion = version.match(/^v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$/gm);
+        const isPrerelease = isProductionVersion === null;
+        if (isPrerelease) {
             npmPublishTag = 'alpha';
             if (version.match(/beta|rc/)) {
                 npmPublishTag = 'beta';
             }
         }
 
+        core.info(`*** isPrerelease: ${isPrerelease} ***`);
+
         let notificationMsg = {
-            packageName: name
+            packageName: name,
+            isPrerelease
         }
 
         if (canRelease) {
@@ -48775,7 +48778,7 @@ async function run() {
                     Object.keys(notificationMsg).forEach(x => {
                         msg += `**${x}**: ${notificationMsg[x]}\n`
                     });
-                    
+
                     await axios.default.post(gchat_webhook, { text: msg });
 
                     core.info(`Notification sent!`);
