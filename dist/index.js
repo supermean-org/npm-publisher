@@ -48774,9 +48774,10 @@ async function run() {
                 try {
                     core.info(`Sending notification...`);
 
-                    let msg = `NEW VERSION RELEASED (${version})\n`;
+                    let msg = `*NEW VERSION RELEASED (${version})* \n`;
+                    //developers.google.com/chat/api/guides/message-formats/basic#using_formatted_text_in_messages
                     Object.keys(notificationMsg).forEach(x => {
-                        msg += `*${x}* : ${notificationMsg[x]}\n`
+                        msg += `*${x}* : ${notificationMsg[x]} \n`
                     });
 
                     await axios.default.post(gchat_webhook, { text: msg });
