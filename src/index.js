@@ -95,7 +95,7 @@ async function run() {
         }
 
         const canRelease = !tagResponse.data.tag_name;
-        const isProductionVersion = String(version).match(/^v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$/gm);
+        const isProductionVersion = tag.match(/^v([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)$/gm);
         const isPrerelease = isProductionVersion === null;
         if (isPrerelease) {
             npmPublishTag = 'alpha';
