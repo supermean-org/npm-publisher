@@ -48700,8 +48700,7 @@ async function run() {
         }
 
         let notificationMsg = {
-            packageName: name,
-            version
+            packageName: name
         }
 
         if (canRelease) {
@@ -48772,8 +48771,12 @@ async function run() {
                 try {
                     core.info(`Sending notification...`);
 
-                    const jsonBody = JSON.stringify(notificationMsg, null, 4);
-                    await axios.default.post(gchat_webhook, { text: jsonBody });
+                    let msg = `NEW VERSION RELEASED (${version})\n`;
+                    Object.keys(notificationMsg).forEach(x => {
+                        msg += `**${x}**: ${notificationMsg[x]}\n`
+                    });
+                    
+                    await axios.default.post(gchat_webhook, { text: msg });
 
                     core.info(`Notification sent!`);
                 } catch (error) {
