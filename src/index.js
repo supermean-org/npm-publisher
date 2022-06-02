@@ -181,7 +181,7 @@ async function run() {
 
                     let msg = `NEW VERSION RELEASED (${version})\n`;
                     Object.keys(notificationMsg).forEach(x => {
-                        msg += `**${x}**: ${notificationMsg[x]}\n`
+                        msg += `*${x}* : ${notificationMsg[x]}\n`
                     });
 
                     await axios.default.post(gchat_webhook, { text: msg });
