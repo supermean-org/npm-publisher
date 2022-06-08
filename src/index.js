@@ -20,6 +20,7 @@ const parseChangelog = util.promisify(changelogParser);
 async function run() {
     try {
         const github_token = core.getInput('github_token', { required: true });
+        const discord_webhook = core.getInput('discord_webhook');
         const gchat_webhook = core.getInput('gchat_webhook');
         const npm_token = core.getInput('npm_token');
         const access = core.getInput('access');
@@ -135,7 +136,7 @@ async function run() {
             });
 
             const githubReleaseUrl = `https://github.com/${owner}/${repo}/releases/tag/${tag}`;
-            if (gchat_webhook) {
+            if (gchat_webhook || discord_webhook) {
                 notificationMsg = {
                     ...notificationMsg,
                     githubReleaseUrl
@@ -163,7 +164,7 @@ async function run() {
                 });
 
                 const npmRegistyUrl = `https://www.npmjs.com/package/${name}`;
-                if (gchat_webhook) {
+                if (gchat_webhook || discord_webhook) {
                     notificationMsg = {
                         ...notificationMsg,
                         npmRegistyUrl
@@ -175,7 +176,7 @@ async function run() {
                 core.info('Package version is already exist. Nothing to do here');
             }
 
-            if (gchat_webhook) {
+            if (gchat_webhook || discord_webhook) {
                 try {
                     core.info(`Sending notification...`);
 
@@ -185,7 +186,13 @@ async function run() {
                         msg += `*${x}* : ${notificationMsg[x]} \n`
                     });
 
-                    await axios.default.post(gchat_webhook, { text: msg });
+                    if (gchat_webhook) {
+                        await axios.default.post(gchat_webhook, { text: msg });
+                    }
+
+                    if (discord_webhook) {
+                        await axios.default.post(discord_webhook, { content: msg });
+                    }
 
                     core.info(`Notification sent!`);
                 } catch (error) {

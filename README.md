@@ -17,9 +17,13 @@ Required. GitHub Token from action context
 Optional. If not provided, publishing to npm will be skipped.
 NPM token with publish permission.
 
+### `discord_webhook`
+
+Optional. Discord chat notification webhook url.
+
 ### `gchat_webhook`
 
-Optional. Google chat notification webhook.
+Optional. Google chat notification webhook url.
 
 ### `access`
 
@@ -41,6 +45,7 @@ jobs:
         with:
           github_token: ${{ github.token }}
           npm_token: ${{ secrets.NPM_TOKEN }}
+          discord_webhook: ${{ secrets.DISCORD_WEBHOOK }}
           gchat_webhook: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
 ````
 
