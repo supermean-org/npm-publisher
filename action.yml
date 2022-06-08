@@ -12,7 +12,10 @@ inputs:
     description: 'Optional. Npm access flag. Default is public'
     required: false
   gchat_webhook:
-    description: 'Optional. Google chat notification webhook.'
+    description: 'Optional. Google chat notification webhook url.'
+    required: false
+  discord_webhook:
+    description: 'Optional. Discord chat notification webhook url.'
     required: false
 runs:
   using: 'node16'
