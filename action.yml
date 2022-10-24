@@ -17,6 +17,9 @@ inputs:
   discord_webhook:
     description: 'Optional. Discord chat notification webhook url.'
     required: false
+  path:
+    description: 'Optional. Path to dir containing the npm package.'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
