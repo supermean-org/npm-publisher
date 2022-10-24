@@ -163,7 +163,8 @@ async function run() {
                 await npmPublish.npmPublish({
                     token: npm_token,
                     access: access || 'public',
-                    tag: npmPublishTag || 'latest'
+                    tag: npmPublishTag || 'latest',
+                    package: path
                 });
 
                 const npmRegistyUrl = `https://www.npmjs.com/package/${name}`;
