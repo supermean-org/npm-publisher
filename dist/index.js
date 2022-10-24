@@ -50476,7 +50476,7 @@ async function run() {
                     token: npm_token,
                     access: access || 'public',
                     tag: npmPublishTag || 'latest',
-                    package: path
+                    package: pathToPackage
                 });
 
                 const npmRegistyUrl = `https://www.npmjs.com/package/${name}`;
