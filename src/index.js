@@ -24,7 +24,7 @@ async function run() {
         const gchat_webhook = core.getInput('gchat_webhook');
         const npm_token = core.getInput('npm_token');
         const access = core.getInput('access');
-        const path = core.getInput('path');
+        let path = core.getInput('path');
         const octokit = github.getOctokit(github_token);
 
         if (!path || path === '') {
