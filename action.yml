@@ -21,7 +21,7 @@ inputs:
     description: 'Optional. Path to dir containing the npm package.'
     required: false
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 branding:
   icon: truck
