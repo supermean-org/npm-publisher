@@ -26,7 +26,7 @@ async function run() {
         const access = core.getInput('access');
         const path = core.getInput('path');
         const octokit = github.getOctokit(github_token);
-        const pathToPackage = `${path ?? '.'}/package.json`;
+        const pathToPackage = `${path || '.'}/package.json`;
 
         const pkg = await fse.readJSON(pathToPackage);
         if (!pkg) {
