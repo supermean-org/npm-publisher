@@ -24,13 +24,9 @@ async function run() {
         const gchat_webhook = core.getInput('gchat_webhook');
         const npm_token = core.getInput('npm_token');
         const access = core.getInput('access');
-        let path = core.getInput('path');
+        const path = core.getInput('path');
         const octokit = github.getOctokit(github_token);
-
-        if (!path || path === '') {
-            path = '.'
-        }
-        const pathToPackage = `${path}/package.json`;
+        const pathToPackage = `${path ?? '.'}/package.json`;
 
         const pkg = await fse.readJSON(pathToPackage);
         if (!pkg) {
